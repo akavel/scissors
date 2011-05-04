@@ -1,0 +1,8 @@
+scenario:
+1. start the Scissors Viewer
+2. open the Windows Task Manager (Ctrl-Shift-Esc), find 'scissors.exe'
+3. note how much memory is used by the process
+4. load a big XML file (~200 KB) to Scissors
+5. check how much memory is used by the process
+6. load a small XML file (~10 KB, e.g. 'multilib.bkl')
+7. check how much memory is used by the process - OBSERVATION: the memory usage is close to the value from step 5., while we'd expect it to be close to the value from step 3.

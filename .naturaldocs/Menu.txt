@@ -1,0 +1,92 @@
+Format: 1.4
+
+
+Title: Scissors XML Viewer
+
+# You can also add a sub-title to your menu like this:
+# SubTitle: [subtitle]
+
+Footer: Copyright by Mateusz Czaplinski
+Timestamp: Last updated on yyyy-mm-dd
+#   m     - One or two digit month.  January is "1"
+#   mm    - Always two digit month.  January is "01"
+#   mon   - Short month word.  January is "Jan"
+#   month - Long month word.  January is "January"
+#   d     - One or two digit day.  1 is "1"
+#   dd    - Always two digit day.  1 is "01"
+#   day   - Day with letter extension.  1 is "1st"
+#   yy    - Two digit year.  2006 is "06"
+#   yyyy  - Four digit year.  2006 is "2006"
+#   year  - Four digit year.  2006 is "2006"
+
+
+# --------------------------------------------------------------------------
+# 
+# Cut and paste the lines below to change the order in which your files
+# appear on the menu.  Don't worry about adding or removing files, Natural
+# Docs will take care of that.
+# 
+# You can further organize the menu by grouping the entries.  Add a
+# "Group: [name] {" line to start a group, and add a "}" to end it.
+# 
+# You can add text and web links to the menu by adding "Text: [text]" and
+# "Link: [name] ([URL])" lines, respectively.
+# 
+# The formatting and comments are auto-generated, so don't worry about
+# neatness when editing the file.  Natural Docs will clean it up the next
+# time it is run.  When working with groups, just deal with the braces and
+# forget about the indentation and comments.
+# 
+# --------------------------------------------------------------------------
+
+
+File: main.wlua  (main.wlua)
+File: canvas.lua  (canvas.lua)
+File: canvas_dragging.lua  (canvas_dragging.lua)
+
+Group: wEa  {
+
+   Text: wxWidgets made Easier, for Lua
+   File: wea  (wea.lua)
+   File: IdleCoroutineProcessor.lua  (wea\IdleCoroutineProcessor.lua)
+   }  # Group: wEa
+
+File: NodeIdTracker  (NodeIdTracker.lua)
+File: painter.lua  (painter.lua)
+File: painter_title.lua  (painter_title.lua)
+File: progress.lua  (progress.lua)
+File: renderer.lua  (renderer.lua)
+File: shapes.lua  (shapes.lua)
+File: bundle.out.lua  (bundle.out.lua)
+File: wxluafreeze_package_generator.lua  (wxluafreeze_package_generator.lua)
+File: xmlh_Chakravarti.lua  (xmlh_Chakravarti.lua)
+File: xmlh_LuaXML  (xmlh_LuaXML.lua)
+
+Group: Bundle  {
+
+   Text: Utilites for packing the application into a single .exe file.
+   File: bundle.lua  (bundle\bundle.lua)
+   File: findDependencies.lua  (bundle\findDependencies.lua)
+   File: findPackage.lua  (bundle\findPackage.lua)
+   File: loadOptions.lua  (bundle\loadOptions.lua)
+   File: scan_dependencies.lua  (bundle\scan_dependencies.lua)
+   }  # Group: Bundle
+
+Group: Lib  {
+
+   File: collect&lparen;iterator&rparen;  (lib\collect.lua)
+   File: ctor_init&lparen;self, ....&rparen;  (lib\ctor_init.lua)
+   File: Event  (lib\event.lua)
+   File: spliterator&lparen;s, pattern [, plain]&rparen;  (lib\spliterator.lua)
+   File: string.luaEscape&lparen;s&rparen;  (lib\luaEscape.lua)
+   }  # Group: Lib
+
+Group: Index  {
+
+   Index: Everything
+   Class Index: Classes
+   File Index: Files
+   Function Index: Functions
+   Variable Index: Variables
+   }  # Group: Index
+

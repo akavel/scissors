@@ -1,0 +1,7 @@
+The aim of the project is to create a tool which would make editing XML easy and intuitive -- that is, bring the idea of "XML editor" to a new level. This will be accomplished by creating a desktop application pursuing two goals -- to become at the same time:
+
+- an XML "navigator" -- for easy navigation in the XML document's tree (thanks to various switchable modes of display, zooming, colours, keyboard commands and mouse dragging),
+
+- an XML "editor" -- operating on whole subtrees (with cut/copy/paste) or, at other times, on individual characters (element/attribute names, attribute values, text nodes).
+
+The application development will start in Java+Swing for easy prototyping, with a long term goal of switching to C++ (+wxWidgets or Qt) for speed and responsiveness.

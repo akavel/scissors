@@ -1,0 +1,1 @@
+Do not delete. This file exists to make sure Mercurial will create the containing directory.

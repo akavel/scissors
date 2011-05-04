@@ -1,0 +1,21 @@
+
+syntax: glob
+
+.svn
+*.bak
+*~
+*.out
+*.out.lua
+*.luac.lua
+*.wxluafreeze.lua
+*.exe
+*.luac
+*.orig
+*.rej
+
+regexp:^bin/
+glob:src/resources/embedded_title_image.lua
+glob:src/resources/embedded_author_logo.lua
+regexp:\.naturaldocs/Data/
+regexp:apidoc/
+glob:src/resources/embedded_refresh_icon.lua

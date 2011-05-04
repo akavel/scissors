@@ -1,0 +1,1 @@
+lua ..\tools\make_embedded_image.lua test.png > embedded_image.lua
