@@ -32,6 +32,7 @@ The "About..." window for Scissors.
 
 local wx = require "wx"
 local wea = require "wea"
+local resources = require "resources"
 
 module(...)
 
@@ -48,7 +49,7 @@ function ShowModalAt(frame, resources)
     
     local frame = wea.Dialog
     {
-        "wEa layout test app",
+        resources.defaultTitle,
         layout = wea.Vbox
         {
          wea.Panel
@@ -96,7 +97,7 @@ function ShowModalAt(frame, resources)
                                     wea.Vbox
                                     {
                                         wea.StaticText{ "Scissors XML Viewer", font=font1 },
-                                        wea.StaticText{ "version 1.0 - 2009.10.31", font=font2 },
+                                        wea.StaticText{ "version 1.0 - 2011.12.16", font=font2 },
                                     },
                                     wea.Spacer(border3, 0)
                                 },
@@ -108,9 +109,9 @@ function ShowModalAt(frame, resources)
                         align = 'right',
                         wea.Vbox
                         {
-                            wea.StaticText{ "Copyright (c) 2009 by", font=font3, align="right" },
+                            wea.StaticText{ "Copyright (c) 2009-2011 by", font=font3, align="right" },
                             wea.StaticText{ "Mateusz Czaplinski", font=font4, align="right" },
-                            wea.StaticText{ "mateusz@czaplinski.pl", font=font3, align="right" },
+                            wea.StaticText{ "czapkofan@gmail.com", font=font3, align="right" },
                             wea.StretchSpacer()
                         },
                         wea.Spacer( 10, 0 ),
@@ -134,7 +135,8 @@ wea.TextAttr{color=wea.Color"#3333aa", font=font2},'Silk Icons',
 wea.TextAttr{color=wea.Color"#000000", font=font2},[[:
 http://www.famfamfam.com/lab/icons/silk/
 
-Also, Thanks to God.]]};
+Author would also like to express his gratitude towards God,
+for all His blessings.]]};
                 code=function(o, args)
                     -- o.wx:SetSize(wea.Size{)
                 end;
