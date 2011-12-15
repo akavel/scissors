@@ -61,22 +61,31 @@ end
 Method: ConnectTo(self, window)
 ]]--
 function IdleCoroutineProcessor:ConnectTo(window)
+    local function disable()
+        self.workerThread = nil  -- clear the worker
+        window:Disconnect(wx.wxEVT_IDLE)
+    end
+
     -- Create a function processing the 'workerThread' coroutine in idle time
     window:Connect(wx.wxEVT_IDLE, function(event)
-        if type(self.workerThread) == 'thread' then  -- implicitly checking if not nil
-            local success, err = coroutine.resume(self.workerThread)
-            if coroutine.status(self.workerThread) == 'dead' then
-                self.workerThread = nil  -- clear the worker
-                
-                -- If the thread ended because of an error, send it to the handler, if available.
-                local errorHandler = self.workerThreadErrorHandler
-                self.workerThreadErrorHandler = nil  -- clear the error handler
-                if not success and errorHandler ~= nil then
-                    errorHandler(err)
-                end
-            else
-                event:RequestMore()
-            end
+        if type(self.workerThread) ~= 'thread' then  -- implicitly checking if not nil
+            disable()
+            return
         end
+
+        local success, err = coroutine.resume(self.workerThread)
+        if coroutine.status(self.workerThread) == 'dead' then
+            disable()
+            
+            -- If the thread ended because of an error, send it to the handler, if available.
+            local errorHandler = self.workerThreadErrorHandler
+            self.workerThreadErrorHandler = nil  -- clear the error handler
+            if not success and errorHandler ~= nil then
+                errorHandler(err)
+            end
+            return
+        end
+
+        event:RequestMore()
     end)
 end

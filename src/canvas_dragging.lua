@@ -67,9 +67,46 @@ local function getMilliseconds()
     return wx.wxGetLocalTimeMillis():ToString() + 0
 end
 
-local function scroll(self, dx, dy)
-    local sx, sy = self.canvas:GetViewStart()
-    self.canvas:Scroll(sx + dx*self.xm, sy + dy*self.xm)
+local function scroll(canvas, dx, dy)
+    local sx, sy = canvas:GetViewStart()
+    canvas:Scroll(sx + dx, sy + dy)
+    local newsx, newsy = canvas:GetViewStart()
+    return (newsx ~= sx or newsy ~= sy)
+end
+
+local function startScroller(canvas, dx, dy)
+    local dx, dy = (dx or 0), (dy or 0)
+    if dx == 0 and dy == 0 then
+        return
+    end
+    
+    local idleProcessor = wea.IdleCoroutineProcessor()
+    idleProcessor:ConnectTo(canvas)
+
+    local stop = false
+    local function stopper()
+        stop = true
+    end
+
+    local lastTime = getMilliseconds()
+    idleProcessor.workerThread = coroutine.create(function()
+        while not stop do
+            local currentTime = getMilliseconds()
+            if currentTime - lastTime > 10 then
+                lastTime = currentTime
+
+                if not scroll(canvas, dx, dy) then
+                    return
+                end
+            end
+            coroutine.yield()
+        end
+    end)
+    -- Prepare a handler for errors while loading the file.
+    idleProcessor.workerThreadErrorHandler = function(err)
+    end
+    
+    return stopper
 end
 
 --[[[
@@ -82,39 +119,22 @@ function CanvasDraggingController:connect()
     -- self.canvas:Connect(wx.wxEVT_ENTER_WINDOW,    function(e) self:OnMove(e) end)
     -- self.canvas:Connect(wx.wxEVT_LEAVE_WINDOW,    function(e) self:OnMove(e) end)
     self.canvas:SetCursor(self.cursor)
-    
-    local lastTime = getMilliseconds()
-    local idleProcessor = wea.IdleCoroutineProcessor()
-    idleProcessor:ConnectTo(self.canvas)
-    -- Create a thread which will load, parse and render the file.
-    idleProcessor.workerThread = coroutine.create(function()
-        while true do
-            local currentTime = getMilliseconds()
-            if currentTime - lastTime > 10 then
-                lastTime = currentTime
-                if self.slideOn then
-                    local m = SlidingMultiplier
-                    scroll(self, self.dxSlide*m, self.dySlide*m)
-                end
-            end
-            coroutine.yield()
-        end
-    end)
-    -- Prepare a handler for errors while loading the file.
-    idleProcessor.workerThreadErrorHandler = function(err)
-    end
-    
 end
 
 function CanvasDraggingController:_onLeftDown(event)
     self.xOld, self.yOld = event:GetPositionXY()
     self.dxSlide, self.dySlide = 0, 0
-    self.slideOn = false
+
+    if self.scrollStopper then
+        self.scrollStopper()
+    end
 end
 
 function CanvasDraggingController:_onLeftUp(event)
     self.xOld, self.yOld = nil, nil
-    self.slideOn = true
+
+    local m = SlidingMultiplier
+    self.scrollStopper = startScroller(self.canvas, self.dxSlide*self.xm*m, self.dySlide*self.ym*m)
 end
 
 function CanvasDraggingController:_onMove(event)
@@ -122,7 +142,7 @@ function CanvasDraggingController:_onMove(event)
         local x, y = event:GetPositionXY()
         local dx = x - (self.xOld or x) -- fall back to 0 if not initialized
         local dy = y - (self.yOld or y) 
-        scroll(self, dx, dy)
+        scroll(self.canvas, dx*self.xm, dy*self.xm)
         self.xOld = x
         self.yOld = y
         if dx*dx + dy*dy >= SlidingThreshold then
@@ -131,4 +151,3 @@ function CanvasDraggingController:_onMove(event)
         end
     end
 end
-
